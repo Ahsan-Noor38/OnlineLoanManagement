@@ -1,0 +1,56 @@
+﻿@model OnlineBankLoanPortal.Models.Customer
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<section class="h-100" style="background:linear-gradient(to right, #e3f2fd, #ffffff);">
+    <div class="container py-5 h-100">
+
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+
+                        @{
+                            if (ViewBag.Message != null)
+                            {
+                                <p class="text-danger">@ViewBag.Message</p>
+                            }
+                            if (TempData["success"] != null)
+                            {
+                                <p class="text-success">@TempData["success"]</p>
+                            }
+                        }
+                        <form asp-action="Login">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div data-mdb-input-init class=" form-outline mb-4">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <label asp-for="Password" class="control-label"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <input type="submit" value="Login" class="btn btn-primary" />
+                            </div>
+                        </form>
+                        <br />
+                        <p>
+                            <a asp-controller="Home" asp-action="signUp">Not Registered Yet ? Click here to SignUp</a>
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>

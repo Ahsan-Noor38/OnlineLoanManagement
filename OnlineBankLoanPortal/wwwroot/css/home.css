@@ -1,0 +1,159 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(to right, #e3f2fd, #ffffff);
+}
+
+.hero-text {
+    max-width: 50%;
+    padding-left: 20px;
+}
+
+    .hero-text h1 {
+        font-size: 2.5rem;
+        color: #003d6b;
+    }
+
+    .hero-text p {
+        margin: 15px 0;
+        color: #555;
+        font-size: 1rem;
+    }
+
+.btn {
+    background-color: #002f4b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .btn:hover {
+        background-color: #005fa3;
+    }
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+}
+/*feature section*/
+
+.sec-section {
+    text-align: center;
+    background-color: #002b45;
+    color: white;
+    padding: 20px 0;
+}
+
+   
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+
+    .feature-item i {
+        font-size: 20px;
+    }
+/*About-us section*/
+.about-us {
+    background-color: white;
+    margin-bottom:20px;
+}
+
+.about-text  {
+    color: #003d6b;
+}
+
+.btn-dark {
+    background-color: #0b132b;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+    .btn-dark:hover {
+        background-color: #1c2541;
+    }
+/*services section*/
+.services-section {
+    text-align: center;
+    background-color: #002b45;
+   color: white;
+    padding: 20px 0;
+
+}
+
+
+.service-card {
+    transition: transform 0.3s;
+}
+
+    .service-card:hover {
+        transform: translateY(-5px);
+    }
+
+.service-icon {
+    font-size: 50px;
+    color: #002b45;
+}
+/*Why-choose-us section*/
+
+
+.why-choose-us {
+    background:linear-gradient(to left, #e3f2fd, #ffffff)
+    margin:
+}
+
+.section-subtitle {
+    font-size: 1.5rem;
+    color: #002b45;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #003d6b;
+    margin-bottom: 1rem;
+}
+
+.section-description {
+    font-size: 1rem;
+    color: #4f4f4f;
+    margin-bottom: 1.5rem;
+}
+
+
+
+.why-choose-us-img img {
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
