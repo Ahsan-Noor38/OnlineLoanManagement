@@ -1,4 +1,4 @@
-﻿@model OnlineBankLoanPortal.Models.Customer
+﻿@model OnlineBankLoanPortal.ViewModels.LoginViewModel
 
 @{
     ViewData["Title"] = "Login";
@@ -10,7 +10,7 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                    <div class="card-body p-5 text-center">
+                    <div class="card-body p-5">
 
                         @{
                             if (ViewBag.Message != null)
@@ -23,7 +23,9 @@
                             }
                         }
                         <form asp-action="Login">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+                            <div asp-validation-summary="All" class="text-danger"></div> <!-- Display all validation errors -->
+
 
                             <div data-mdb-input-init class=" form-outline mb-4">
                                 <label asp-for="Email" class="control-label"></label>

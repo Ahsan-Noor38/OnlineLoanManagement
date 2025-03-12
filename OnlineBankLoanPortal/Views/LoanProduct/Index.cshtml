@@ -1,0 +1,23 @@
+﻿@model IEnumerable<LoanProduct>
+
+<h2>Loan Products</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Interest Rate</th>
+            <th>Repayment Terms</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.ProductName</td>
+                <td>@product.InterestRate %</td>
+                <td>@product.RepaymentTerms</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,4 +1,4 @@
-﻿@model OnlineBankLoanPortal.Models.LoanApplication
+﻿@model OnlineBankLoanPortal.ViewModels.LoanApplicationVM
 
 @{
     ViewData["Title"] = "ApplyForloan";
@@ -20,30 +20,30 @@
                             <div class="card-body p-md-5 text-black">
                                 <h3 class="display-6 mb-5 text-uppercase text-center">Loan Application Form</h3>
 
-                                <form asp-action="ApplyForLoan">
+                                <form asp-action="Create" asp-controller="LoanApplication">
                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                                     <div class="mb-4">
                                         <div data-mdb-input-init class="form-outline">
-                                            <input asp-for="ApplicantName" class="form-control form-control-lg" />
                                             <label asp-for="ApplicantName" class="control-label"></label>
+                                            <input asp-for="ApplicantName" class="form-control form-control-lg" />
                                             <span asp-validation-for="ApplicantName" class="text-danger"></span>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-6 mb-4">
-                                            <div data-mdb-input-init class="form-outline">
-                                                <input asp-for="Amount" class="form-control form-control-lg" />
-                                                <label asp-for="Amount" class="control-label"></label>
-                                                <span asp-validation-for="Amount" class="text-danger"></span>
+                                            <div class="form-group">
+                                                <label asp-for="AmountRequested" class="control-label"></label>
+                                                <input asp-for="AmountRequested" class="form-control form-control-lg" />
+                                                <span asp-validation-for="AmountRequested" class="text-danger"></span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6 mb-4">
                                             <div data-mdb-input-init class="form-outline">
-                                                <input asp-for="TotalIncome" class="form-control form-control-lg" />
                                                 <label asp-for="TotalIncome" class="control-label"></label>
+                                                <input asp-for="TotalIncome" class="form-control form-control-lg" />
                                                 <span asp-validation-for="TotalIncome" class="text-danger"></span>
                                             </div>
                                         </div>
@@ -51,36 +51,40 @@
 
                                     <div class="mb-4">
                                         <div data-mdb-input-init class="form-outline">
-                                            <input asp-for="ApplicantEmail" class="form-control form-control-lg" />
                                             <label asp-for="ApplicantEmail" class="control-label"></label>
+                                            <input asp-for="ApplicantEmail" class="form-control form-control-lg" />
                                             <span asp-validation-for="ApplicantEmail" class="text-danger"></span>
                                         </div>
                                     </div>
-
-                             
-
-                                   
-
                                     <div class="mb-4">
+                                        <div class="form-group">
+                                            <label asp-for="ProductId">Loan Type</label>
+                                            <select asp-for="ProductId" class="form-control" asp-items="@(new SelectList(ViewBag.Products, "ProductId", "ProductName"))"></select>
+                                            <span asp-validation-for="ProductId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    @* <div class="mb-4">
                                         <div data-mdb-input-init class="form-outline">
-                                           
+
                                             <input asp-for="Date" class="form-control" type="date" />
                                             <label asp-for="Date" class="control-label"></label>
                                             <span asp-validation-for="Date" class="text-danger"></span>
                                         </div>
-                                    </div>
+                                    </div> *@
 
                                     <div class="mb-4">
                                         <div data-mdb-input-init class="form-outline">
-                                            <input asp-for="Address" class="form-control form-control-lg" />
                                             <label asp-for="Address" class="control-label"></label>
+                                            <input asp-for="Address" class="form-control form-control-lg" />
                                             <span asp-validation-for="Address" class="text-danger"></span>
                                         </div>
                                     </div>
 
-                                    <div class="form-group d-flex justify-content-center">
+                                    <div class="form-group d-flex justify-content-start">
                                         <input type="submit" value="Submit" class="btn btn-primary" />
                                     </div>
+                                    <br />
+                                    <a asp-action="Index" class="btn btn-secondary">Back to Applications</a>
                                 </form>
 
                             </div>

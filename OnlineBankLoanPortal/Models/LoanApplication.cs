@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OnlineBankLoanPortal.Models;
+﻿namespace OnlineBankLoanPortal.Models;
 
 public partial class LoanApplication
 {
-    public int LaId { get; set; }
+    public int ApplicationId { get; set; }
 
-    public string Date { get; set; } = null!;
+    public int? ProductId { get; set; }
 
-    public string Amount { get; set; } = null!;
+    public decimal AmountRequested { get; set; }
 
-    public int CId { get; set; }
+    public string Status { get; set; } = null!;
 
-    public int LpId { get; set; }
+    public DateTime DateApplied { get; set; }
 
-    public int LoId { get; set; }
+    public DateTime? DateApproved { get; set; }
 
-    public string ApplicantName { get; set; } = null!;
+    public string? Feedback { get; set; }
 
-    public string ApplicantEmail { get; set; } = null!;
+    public Guid? UserId { get; set; }
 
-    public string LoanProduct { get; set; } = null!;
+    public virtual LoanProduct? Product { get; set; }
 
-    public string Address { get; set; } = null!;
+    public virtual ApplicationUser? ApplicationUser { get; set; }
 
-    public string TotalIncome { get; set; } = null!;
-
-    public virtual LoanOfficer Lo { get; set; } = null!;
+    public virtual ICollection<Repayment> Repayments { get; set; }
 }

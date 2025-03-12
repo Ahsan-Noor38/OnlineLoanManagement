@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OnlineBankLoanPortal.Models;
+﻿namespace OnlineBankLoanPortal.Models;
 
 public partial class LoanProduct
 {
-    public int LpId { get; set; }
+    public int ProductId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string ProductName { get; set; } = null!;
+
+    public decimal InterestRate { get; set; }
+
+    public string RepaymentTerms { get; set; } = null!;
+
+    public virtual ICollection<LoanApplication> LoanApplications { get; set; } = new List<LoanApplication>();
 }

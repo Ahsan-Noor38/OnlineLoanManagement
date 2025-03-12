@@ -9,10 +9,10 @@
     <div class="hero-text">
         <h1>Online Loan to Achieve Your Goals and Future for Change.</h1>
         <p>Making financial goals a priority is very important. By ensuring a user-friendly experience, individuals can comfortably work towards their dreams and achieve set goals.</p>
-        <a asp-area="" asp-controller="Home" asp-action="ApplyForLoan" class="btn">Apply For Loan</a>
+        <a asp-area="" asp-controller="LoanApplication" asp-action="Create" class="btn">Apply For Loan</a>
     </div>
     <div class="hero-image">
-        <img src="~/images/hero image1.png" alt="Person holding a tablet">
+        <img src="~/images/hero image1.png" alt="Person holding a tablet" />
     </div>
 </section>
 <div class="sec-section">
@@ -46,7 +46,7 @@
             <p class="text-muted">
                 Whether you need a personal loan, business loan, or home loan, our platform ensures transparency and efficiency. With our advanced digital infrastructure, you can track your loan status, manage repayments, and access financial insights—all in one place.
             </p>
-            <a href="#" class="btn btn-dark px-4 py-2">APPLY FOR LOAN</a>
+            <a asp-controller="LoanApplication" asp-action="Create" class="btn btn-dark px-4 py-2">APPLY FOR LOAN</a>
         </div>
 
         
@@ -80,7 +80,7 @@
                         <i class="fas fa-home service-icon"></i>
                         <h4 class="card-title mt-3">Home Loan</h4>
                         <p class="card-text">Get affordable home loans with low interest rates and easy repayment options.</p>
-                        <a asp-area="" asp-controller="Home" asp-action="ApplyForLoan" class="btn" style="background-color:#002b45; color: white;">Apply Now</a>
+                        <a asp-area="" asp-controller="LoanApplication" asp-action="Create" class="btn" style="background-color:#002b45; color: white;">Apply Now</a>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                         <i class="fas fa-user service-icon"></i>
                         <h4 class="card-title mt-3">Personal Loan</h4>
                         <p class="card-text">Flexible personal loans to meet your financial needs, no collateral required.</p>
-                        <a asp-area="" asp-controller="Home" asp-action="ApplyForLoan" class="btn" style="background-color:#002b45; color: white;">Apply Now</a>
+                        <a asp-area="" asp-controller="LoanApplication" asp-action="Create" class="btn" style="background-color:#002b45; color: white;">Apply Now</a>
 
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                         <i class="fas fa-briefcase service-icon"></i>
                         <h4 class="card-title mt-3">Business Loan</h4>
                         <p class="card-text">Boost your business with customized loan solutions at competitive rates.</p>
-                        <a asp-area="" asp-controller="Home" asp-action="ApplyForLoan" class="btn" style="background-color:#002b45; color: white;">Apply Now</a>
+                        <a asp-area="" asp-controller="LoanApplication" asp-action="Create" class="btn" style="background-color:#002b45; color: white;">Apply Now</a>
 
                     </div>
                 </div>
