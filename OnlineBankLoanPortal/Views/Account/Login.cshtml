@@ -1,7 +1,8 @@
-﻿@model OnlineBankLoanPortal.ViewModels.LoginViewModel
+﻿@model OnlineBankLoanPortal.ViewModels.LoginVM
 
 @{
     ViewData["Title"] = "Login";
+    var returnUrl = ViewData["ReturnUrl"] as string;
 }
 
 <section class="h-100" style="background:linear-gradient(to right, #e3f2fd, #ffffff);">
@@ -22,7 +23,7 @@
                                 <p class="text-success">@TempData["success"]</p>
                             }
                         }
-                        <form asp-action="Login">
+                        <form asp-action="Login" method="post" asp-route-returnUrl="@returnUrl">
                             @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
                             <div asp-validation-summary="All" class="text-danger"></div> <!-- Display all validation errors -->
 

@@ -22,7 +22,7 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Loan Application ID</th>
+                <th>Application Type</th>
                 <th>Amount</th>
                 <th>Payment Date</th>
                 <th>Receipt</th>
@@ -34,7 +34,7 @@
                 var repayment = Model.ElementAt(i);
                 <tr>
                     <td>@(i + 1)</td>
-                    <td>@repayment.ApplicationId</td>
+                    <td>@repayment.Application?.Product?.ProductName</td>
                     <td>@repayment.AmountPaid</td>
                     <td>@repayment.PaymentDate.ToShortDateString()</td>
                     <td>

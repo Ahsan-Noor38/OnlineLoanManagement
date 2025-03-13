@@ -2,7 +2,7 @@
 
 namespace OnlineBankLoanPortal.ViewModels
 {
-    public class LoginViewModel
+    public class LoginVM
     {
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email address.")]

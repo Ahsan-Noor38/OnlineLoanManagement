@@ -2,7 +2,7 @@
 
 namespace OnlineBankLoanPortal.ViewModels
 {
-    public class RegisterViewModel
+    public class RegisterVM
     {
         public string Name { get; set; }
         public string Phone { get; set; }

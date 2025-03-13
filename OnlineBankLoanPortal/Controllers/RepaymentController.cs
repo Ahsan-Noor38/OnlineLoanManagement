@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineBankLoanPortal.Models;
 using OnlineBankLoanPortal.Repository;
@@ -18,10 +19,12 @@ namespace OnlineBankLoanPortal.Controllers
         }
 
         // GET: Repayment/Create
+        [HttpGet]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Index(int? applicationId)
         {
             var repayments = await _context.Repayments
-                .Include(r => r.Application)
+                .Include(r => r.Application.Product)
                 .Where(r => !applicationId.HasValue || r.ApplicationId == applicationId)
                 .OrderByDescending(r => r.PaymentDate)
                 .ToListAsync();
@@ -30,6 +33,7 @@ namespace OnlineBankLoanPortal.Controllers
         }
 
         // GET: Repayment/Create
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Create(int applicationId)
         {
             var model = new RepaymentVM

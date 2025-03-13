@@ -73,6 +73,30 @@ public partial class ApplicationDbContext : IdentityDbContext<ApplicationUser, I
                 .HasConstraintName("FK__Repayment__Appli__2D27B809");
         });
 
+        modelBuilder.Entity<LoanProduct>().HasData(
+            new LoanProduct
+            {
+                ProductId = 1,
+                ProductName = "Personal",
+                InterestRate = 5.0m,
+                RepaymentTerms = "1-5 years"
+            },
+            new LoanProduct
+            {
+                ProductId = 2,
+                ProductName = "Home",
+                InterestRate = 3.5m,
+                RepaymentTerms = "15-30 years"
+            },
+            new LoanProduct
+            {
+                ProductId = 3,
+                ProductName = "Business",
+                InterestRate = 6.0m,
+                RepaymentTerms = "1-10 years"
+            }
+        );
+
         OnModelCreatingPartial(modelBuilder);
     }
 

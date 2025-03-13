@@ -24,20 +24,7 @@ namespace OnlineBankLoanPortal.Controllers
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Index()
         {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var applications = await _context.LoanApplications
-                .Where(a => a.UserId == userId)
-                .Include(a => a.Product)
-                .Include(a => a.ApplicationUser)
-                .Select(a => new LoanApplicationVM
-                {
-                    Id = a.ApplicationId,
-                    ProductName = a.Product.ProductName,
-                    AmountRequested = a.AmountRequested,
-                    ApplicantName = a.ApplicationUser.FullName,
-                    Status = a.Status
-                })
-                .ToListAsync();
+            List<LoanApplicationVM> applications = await GetUserLoanApplications();
             return View(applications);
         }
 
@@ -118,20 +105,43 @@ namespace OnlineBankLoanPortal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var application = await _context.LoanApplications.FindAsync(id);
-            if (application == null)
-            {
-                return NotFound();
-            }
+            var application = await _context.LoanApplications
+                    .Where(a => a.ApplicationId == id)
+                    .Include(a => a.Repayments)
+                    .FirstOrDefaultAsync();
 
-            if (application.Status != "Pending")
+            if (application == null)
+                return NotFound();
+
+            if (application.Status != "Pending" || application.Repayments.Any())
             {
-                return UnprocessableEntity();
+                //ModelState.AddModelError("", "Cannot delete this application because it has associated repayments.");
+                TempData["ErrorMessage"] = "Cannot delete application. Repayments have been initiated.";
+                RedirectToAction(nameof(Index));
             }
 
             _context.LoanApplications.Remove(application);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<List<LoanApplicationVM>> GetUserLoanApplications()
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var applications = await _context.LoanApplications
+                .Where(a => a.UserId == userId)
+                .Include(a => a.Product)
+                .Include(a => a.ApplicationUser)
+                .Select(a => new LoanApplicationVM
+                {
+                    Id = a.ApplicationId,
+                    ProductName = a.Product.ProductName,
+                    AmountRequested = a.AmountRequested,
+                    ApplicantName = a.ApplicationUser.FullName,
+                    Status = a.Status
+                })
+                .ToListAsync();
+            return applications;
         }
     }
 }
