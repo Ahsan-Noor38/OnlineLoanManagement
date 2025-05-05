@@ -1,0 +1,36 @@
+﻿@model IEnumerable<OnlineBankLoanPortal.Models.InterestRate>
+@{
+    ViewData["Title"] = "Interest Rates";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="CreateInterestRate" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.LoanType)</th>
+            <th>@Html.DisplayNameFor(model => model.Rate)</th>
+            <th>@Html.DisplayNameFor(model => model.EffectiveDate)</th>
+            <th>@Html.DisplayNameFor(model => model.EndDate)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.LoanType.LoanTypeName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Rate)</td>
+                <td>@Html.DisplayFor(modelItem => item.EffectiveDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+                <td>
+                    <a asp-action="EditInterestRate" asp-route-id="@item.InterestRateId" class="btn btn-sm btn-primary">Edit</a> |
+                    <a asp-action="DeleteInterestRate" asp-route-id="@item.InterestRateId" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

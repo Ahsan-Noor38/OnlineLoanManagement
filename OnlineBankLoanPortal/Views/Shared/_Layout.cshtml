@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,27 +30,62 @@
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BankLoanPortal</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">AboutUs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Services">Services</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="LoanApplication" asp-action="Index">Applications</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Repayment" asp-action="Index">Payments</a>
-                        </li>
+                        @if (!User.Identity?.IsAuthenticated ?? true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Services">Services</a>
+                            </li>
+                        }
+                        else
+                        {
+                            if (User.IsInRole("Customer"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="LoanApplications">Applications</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("LoanOfficer"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="LoanOfficer" asp-action="LoanApplications">Applications</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="LoanApplications">Applications</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="LoanTypes">Loan Types</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="InterestRates">Interest Rates</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="RepaymentTerms">Loan Repayments</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="TrackRepayments">Track Repayments</a>
+                                </li>
+                            }
+                            @* <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="LoanApplication" asp-action="Index">Applications</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Repayment" asp-action="Index">Payments</a>
+                            </li> *@
+                        }
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         @if (!User.Identity?.IsAuthenticated ?? true)
@@ -62,9 +100,18 @@
                         else
                         {
                             System.Net.Mail.MailAddress address = new System.Net.Mail.MailAddress(User.Identity.Name);
-                            <li class="nav-item">
-                                <div class="user-display">Hello @address.User</div>&nbsp;&nbsp;
-                            </li>
+                            if (User.IsInRole("Customer"))
+                            {
+                                <li class="nav-item">
+                                    <a asp-controller="Customer" asp-action="Profile" class="user-display">Hello @address.User</a>&nbsp;&nbsp;
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <div class="user-display">Hello @address.User</div>&nbsp;&nbsp;
+                                </li>
+                            }
                             <li class="nav-item">
                                 <a class="btn btn-primary" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                             </li>

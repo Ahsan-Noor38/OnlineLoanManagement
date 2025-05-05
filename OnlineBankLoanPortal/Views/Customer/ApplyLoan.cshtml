@@ -1,0 +1,89 @@
+﻿@model OnlineBankLoanPortal.ViewModels.ApplyForLoanVM
+@{
+    ViewData["Title"] = "Apply for Loan";
+}
+
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+
+    <form asp-action="ApplyLoan" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="LoanTypeId" class="control-label"></label>
+            <select asp-for="LoanTypeId" class="form-control" asp-items="ViewBag.LoanTypeId" required></select>
+            <span asp-validation-for="LoanTypeId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="LoanAmount" class="control-label"></label>
+            <input asp-for="LoanAmount" class="form-control" required />
+            <span asp-validation-for="LoanAmount" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Purpose" class="control-label"></label>
+            <textarea asp-for="Purpose" class="form-control" required></textarea>
+            <span asp-validation-for="Purpose" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Supporting Documents</label>
+            <div id="documentInputs">
+                <div class="input-group mb-3">
+                    <select name="documentTypes[0]" class="form-control col-md-4" required>
+                        @foreach (var type in ViewBag.DocumentTypes)
+                        {
+                            <option value="@type">@type</option>
+                        }
+                    </select>
+                    <input type="file" asp-for="Files" name="Files[0]" class="form-control col-md-8" accept="*" required />
+                </div>
+            </div>
+            <button type="button" id="addDocument" class="btn btn-sm btn-secondary mt-2 float-end">Add Document</button>
+            <span for="files" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Apply" class="btn btn-sm btn-primary" />
+            <a asp-action="LoanApplications" class="btn btn-sm btn-secondary">My Applications</a>
+        </div>
+    </form>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            $(document).ready(function () {
+                let index = 1; // Start at 1, because the first one is already in the HTML
+
+                $("#addDocument").click(function () {
+                    var newDocumentInput = `<div class="input-group mb-3">
+                        <select name="documentTypes[${index}]" class="form-control col-md-4" required>
+                        @foreach (var type in ViewBag.DocumentTypes)
+                        {
+                                    <option value="@type">@type</option>
+                        }
+                        </select>
+                        <input type="file" asp-for="Files" name="Files[${index}]" class="form-control col-md-8" accept="*" required />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-danger removeDocument">Remove</button>
+                        </div>
+                    </div>`;
+                    $("#documentInputs").append(newDocumentInput);
+                    index++;
+                });
+
+                $(document).on('click', '.removeDocument', function () {
+                    $(this).closest('.input-group').remove();
+                    reindexInputs(); // Call the reindex function
+                });
+
+                function reindexInputs() {
+                    $("#documentInputs .input-group").each(function (i) {
+                        $(this).find('input[type="file"]').attr('name', `Files[${i}]`);
+                    });
+                    index = $("#documentInputs .input-group").length;
+                }
+            });
+        </script>
+    }
+</div>

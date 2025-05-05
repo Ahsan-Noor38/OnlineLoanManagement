@@ -1,0 +1,37 @@
+﻿@model OnlineBankLoanPortal.Models.LoanApplication
+@{
+    ViewData["Title"] = "Assign Loan Officer";
+}
+
+<div class="container">
+
+    <h1>@ViewData["Title"]</h1>
+
+    <h3>Assign a Loan Officer to Application ID: @Model.LoanApplicationId</h3>
+
+    <form asp-action="AssignLoanOfficer">
+        <input type="hidden" asp-for="LoanApplicationId" />
+        <div class="form-group">
+            <label for="loanOfficerId">Loan Officers:</label>
+            <select id="loanOfficerId" name="loanOfficerId" class="form-control" asp-items="ViewBag.LoanOfficers" required>
+                <option value="">-- Select Loan Officer --</option>
+            </select>
+        </div><br />
+        <div class="form-group">
+            <input type="submit" value="Assign" class="btn btn-sm btn-primary" />
+            <a asp-action="LoanApplications" class="btn btn-sm btn-secondary">Back to List</a>
+        </div>
+    </form>
+
+    @if (ViewData.ModelState.ErrorCount > 0)
+    {
+        <div class="alert alert-danger mt-3">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+</div>

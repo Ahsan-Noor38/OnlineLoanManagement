@@ -1,0 +1,72 @@
+﻿@model IEnumerable<OnlineBankLoanPortal.ViewModels.LoanApplicationVM>
+@{
+    ViewData["Title"] = "Loan Applications";
+}
+
+<div class="container">
+
+    <h1>@ViewData["Title"]</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoanTypeName)
+                </th>
+                <th>
+                    Customer Name
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmountRequested)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateApplied)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    Assigned To
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LoanTypeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmountRequested)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateApplied)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OfficerName)
+                    </td>
+                    <td>
+                        @if (item.AssignedOfficerId == null)
+                        {
+                            <a asp-action="AssignLoanOfficer" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Assign Officer</a>
+                        }
+                        else
+                        {
+                            <a asp-action="AssignLoanOfficer" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Update Officer</a>
+                        }
+                        |
+                        <a asp-action="TrackDisbursement" asp-route-id="@item.Id" class="btn btn-sm btn-info">Disburse</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+</div>
+</table>

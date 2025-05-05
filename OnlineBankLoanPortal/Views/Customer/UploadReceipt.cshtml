@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Upload Receipt";
+}
+@if (ViewBag.PaymentId != null)
+{
+    <h1>@ViewData["Title"] for Payment ID @ViewBag.PaymentId</h1>
+}
+else
+{
+    <h1>@ViewData["Title"]</h1>
+}
+
+
+<form asp-action="UploadReceipt" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="@ViewBag.PaymentId" />
+    <div class="form-group">
+        <label for="receiptFile">Payment Receipt:</label>
+        <input type="file" class="form-control" id="receiptFile" name="receiptFile" accept="image/*" required />
+        <span for="receiptFile" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Upload" class="btn btn-sm btn-primary" />
+        <a asp-action="LoanApplications" class="btn btn-sm btn-secondary">Back to Applications</a>
+    </div>
+</form>
+
+@if (ViewData.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger mt-3">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}

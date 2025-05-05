@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Communicate with Customer";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Send a message to customer: <strong>@ViewBag.CustomerName</strong> (ID: @ViewBag.CustomerId)</p>
+
+<form asp-action="SendMessage" method="post">
+    <input type="hidden" name="customerId" value="@ViewBag.CustomerId" />
+    <div class="form-group">
+        <label for="message">Message:</label>
+        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-sm btn-primary">Send Message</button>
+    <a asp-action="LoanApplications" class="btn btn-sm btn-secondary">Back to List</a>
+</form>
+
+@if (TempData["MessageSent"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["MessageSent"]
+    </div>
+}
+
+@if (ViewData.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger mt-3">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}

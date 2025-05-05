@@ -1,0 +1,93 @@
+﻿@model OnlineBankLoanPortal.ViewModels.LoanApplicationVM
+@{
+    ViewData["Title"] = "Approve Loan Application";
+}
+
+<div class="container">
+
+    <h1>@ViewData["Title"]</h1>
+
+    <h3>Are you sure you want to approve this loan application?</h3>
+
+    <div>
+        <h4>Loan Application Details</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LoanTypeName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LoanTypeName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CustomerName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AmountRequested)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AmountRequested)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Purpose)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Purpose)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DateApplied)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DateApplied)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+        </dl>
+
+        <form asp-action="Approve" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="applicationNotes" class="control-label">Approval Notes</label>
+                <textarea id="applicationNotes" name="applicationNotes" class="form-control"></textarea>
+                <span asp-validation-for="ApplicationNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="expectedDisbursementDate" class="control-label">Expected Disbursement Date</label>
+                <input type="date" id="expectedDisbursementDate" name="expectedDisbursementDate" class="form-control" required />
+                <span asp-validation-for="ExpectedDisbursementDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="repaymentTermId" class="control-label">Repayment Term (Months)</label>
+                <select id="repaymentTermId" name="repaymentTermId" class="form-control" required>
+                    <option value="">-- Select Term --</option>
+                    @if (ViewBag.RepaymentTerms != null)
+                    {
+                        @foreach (var term in ViewBag.RepaymentTerms)
+                        {
+                            <option value="@term.RepaymentTermId">@term.TermInMonths (@term.Description)</option>
+                        }
+                    }
+                </select>
+                @* <span asp-validation-for="repaymentTermId" class="text-danger"></span> *@
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Approve" class="btn btn-success" />
+                <a asp-action="LoanApplications" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>

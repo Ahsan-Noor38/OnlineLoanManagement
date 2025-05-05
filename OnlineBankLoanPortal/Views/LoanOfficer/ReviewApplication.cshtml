@@ -1,0 +1,62 @@
+﻿@model OnlineBankLoanPortal.Models.LoanApplication
+@{
+    ViewData["Title"] = "Review Loan Application";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <h4>Loan Application Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LoanType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LoanType.LoanTypeName)
+        </dd>
+        <dt class="col-sm-2">
+            Customer Name
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.CustomerName
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AmountRequested)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AmountRequested)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Purpose)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Purpose)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DateApplied)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateApplied)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ApplicationNotes)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ApplicationNotes)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Approve" asp-route-id="@Model.LoanApplicationId" class="btn btn-sm btn-success">Approve</a> |
+    <a asp-action="Reject" asp-route-id="@Model.LoanApplicationId" class="btn btn-sm btn-danger">Reject</a> |
+    <a asp-action="Cancel" asp-route-id="@Model.LoanApplicationId" class="btn btn-sm btn-warning">Cancel</a> |
+    <a asp-action="Communicate" asp-route-id="@ViewBag.CustomerIdForCommunication" class="btn btn-sm btn-info">Communicate with Customer</a> |
+    <a asp-action="LoanApplications" class="btn btn-sm btn-secondary">Back to List</a>
+</div>

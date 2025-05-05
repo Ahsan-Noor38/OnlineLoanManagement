@@ -1,0 +1,36 @@
+﻿@model IEnumerable<OnlineBankLoanPortal.Models.RepaymentTerm>
+@{
+    ViewData["Title"] = "Repayment Terms";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="CreateRepaymentTerm" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.LoanType)</th>
+            <th>@Html.DisplayNameFor(model => model.TermInMonths)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.IsActive)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.LoanType.LoanTypeName)</td>
+                <td>@Html.DisplayFor(modelItem => item.TermInMonths)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                <td>
+                    <a asp-action="EditRepaymentTerm" asp-route-id="@item.RepaymentTermId" class="btn btn-sm btn-primary">Edit</a> |
+                    <a asp-action="DeleteRepaymentTerm" asp-route-id="@item.RepaymentTermId" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

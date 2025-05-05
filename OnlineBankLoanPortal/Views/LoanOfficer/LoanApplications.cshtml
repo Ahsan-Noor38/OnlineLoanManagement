@@ -1,0 +1,120 @@
+﻿@using OnlineBankLoanPortal.ViewModels
+@model IEnumerable<OnlineBankLoanPortal.ViewModels.LoanApplicationVM>
+@{
+    ViewData["Title"] = "Loan Applications";
+}
+
+<div class="container">
+
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form asp-action="LoanApplications" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search by Customer Name" />
+                    <select class="form-select" name="StatusFilter" style="max-width: 200px;">
+                        <option value="All">All Statuses</option>
+                        @foreach (var status in Html.GetEnumSelectList<LoanApplicationStatus>())
+                        {
+                            var selectedAttribute = ViewData["StatusFilter"]?.ToString() == status.Value ? "selected" : "";
+                            <option value="@status.Value">@status.Text</option>
+                        }
+                    </select>
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 text-end">
+            <a asp-action="LoanApplications" asp-route-sortOrder="@ViewData["DateSortParm"]" class="btn btn-link">Date</a> |
+            <a asp-action="LoanApplications" asp-route-sortOrder="@ViewData["StatusSortParm"]" class="btn btn-link">Status</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-action="LoanApplications" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                        @Html.DisplayNameFor(model => model.LoanTypeName)
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="LoanApplications" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                        @Html.DisplayNameFor(model => model.CustomerName)
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="LoanApplications" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                        @Html.DisplayNameFor(model => model.DateApplied)
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="LoanApplications" asp-route-sortOrder="@ViewData["StatusSortParm"]">
+                        @Html.DisplayNameFor(model => model.Status)
+                    </a>
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr data-loan-application-id="@item.Id">
+                    <td>@Html.DisplayFor(modelItem => item.LoanTypeName)</td>
+                    <td>@item.CustomerName</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateApplied)</td>
+                    <td id="status-@item.Id">@Html.DisplayFor(modelItem => item.Status)</td>
+                    <td>
+                        @if (item.Status == LoanApplicationStatus.Pending)
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                            <a asp-action="Approve" asp-route-id="@item.Id" class="btn btn-sm btn-success">Approve</a>
+                            <a asp-action="Reject" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Reject</a>
+                            <a asp-action="Cancel" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Cancel</a>
+                            <a asp-action="ViewApplicationDocuments" asp-route-id="@item.Id" class="btn btn-sm btn-warning">View Docs</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @section Scripts {
+        <script src="~/lib/signalr/signalr.min.js"></script>
+        @* <script>
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/loanApplicationHub")
+                .build();
+
+            connection.start().then(() => {
+                console.log("SignalR connection established.");
+            }).catch(err => {
+                console.error("Error connecting to SignalR Hub:", err);
+            });
+
+            connection.on("LoanApplicationStatusChanged", (loanApplicationId, status) => {
+                console.log(`Loan Application ${loanApplicationId} status changed to ${status}`);
+                // Update the status in the table
+                const statusCellId = `status-${loanApplicationId}`;
+                const statusCell = document.getElementById(statusCellId);
+                if (statusCell) {
+                    statusCell.textContent = status;
+                }
+
+                // Optionally, you can update the entire row, disable buttons, or perform other UI updates
+                const row = document.querySelector(`[data-loan-application-id="${loanApplicationId}"]`);
+                if (row) {
+                    const approveButton = row.querySelector(".btn-success");
+                    const rejectButton = row.querySelector(".btn-danger");
+                    const cancelButton = row.querySelector(".btn-warning");
+                    if (status === "Approved" || status === "Rejected" || status === "Cancelled") {
+                        if (approveButton) approveButton.disabled = true;
+                        if (rejectButton) rejectButton.disabled = true;
+                        if (cancelButton) cancelButton.disabled = true;
+                    }
+                }
+            });
+        </script> *@
+    }
+</div>

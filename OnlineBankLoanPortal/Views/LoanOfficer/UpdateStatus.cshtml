@@ -1,0 +1,50 @@
+﻿@model OnlineBankLoanPortal.Models.LoanApplication
+@{
+    ViewData["Title"] = "Update Loan Status";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Are you sure you want to update the status of this loan?</h3>
+<div>
+    <h4>Loan Application Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LoanType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LoanType.LoanTypeName)
+        </dd>
+        <dt class="col-sm-2">
+            Customer Name
+        </dt>
+        <dd class="col-sm-10">
+            @* Display Customer Name Here *@
+            @Html.DisplayFor(model => model.CustomerId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AmountRequested)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AmountRequested)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+</div>
+
+<form asp-action="UpdateStatusConfirmed" method="post">
+    <input type="hidden" asp-for="LoanApplicationId" />
+    <div class="form-group">
+        <label for="newStatus">New Status:</label>
+        <select class="form-control" id="newStatus" name="newStatus" asp-items="Html.GetEnumSelectList<OnlineBankLoanPortal.ViewModels.LoanApplicationStatus>()">
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Status</button>
+    <a asp-action="Details" asp-route-id="@Model.LoanApplicationId" class="btn btn-secondary">Back to Details</a>
+</form>

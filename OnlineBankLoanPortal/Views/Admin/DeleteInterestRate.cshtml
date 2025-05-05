@@ -1,0 +1,28 @@
+﻿@model OnlineBankLoanPortal.Models.InterestRate
+@{
+    ViewData["Title"] = "Delete Interest Rate";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Interest Rate</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.LoanType)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.LoanType.LoanTypeName)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Rate)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Rate)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.EffectiveDate)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.EffectiveDate)</dd>
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.EndDate)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.EndDate)</dd>
+    </dl>
+
+    <form asp-action="DeleteInterestRate" asp-route-id="@Model.InterestRateId">
+        <input type="hidden" asp-for="InterestRateId" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="InterestRates" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>

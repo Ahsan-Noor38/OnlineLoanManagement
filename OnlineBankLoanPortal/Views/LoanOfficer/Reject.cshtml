@@ -1,0 +1,63 @@
+﻿@model OnlineBankLoanPortal.Models.LoanApplication
+
+@{
+    ViewData["Title"] = "Reject Application";
+}
+<div class="container">
+
+    <h1>@ViewData["Title"]</h1>
+
+    <h3>Are you sure you want to reject this application?</h3>
+    <div>
+        <h4>Loan Application</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LoanApplicationId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LoanApplicationId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.LoanType)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.LoanType.LoanTypeName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AmountRequested)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AmountRequested)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Purpose)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Purpose)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.DateApplied)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DateApplied)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+        </dl>
+
+        <form asp-action="RejectApplicationConfirmed" method="post">
+            <input type="hidden" asp-for="LoanApplicationId" />
+            <div class="form-group">
+                <label for="RejectionNotes" class="control-label">Rejection Notes</label>
+                <textarea id="RejectionNotes" name="RejectionNotes" class="form-control" required></textarea>
+            </div>
+            <input type="submit" value="Reject" class="btn btn-danger" />
+            <a asp-action="LoanApplications" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

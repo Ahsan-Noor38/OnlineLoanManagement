@@ -32,7 +32,7 @@ namespace OnlineBankLoanPortal.Controllers
         [Authorize]
         public async Task<IActionResult> Create()
         {
-            var products = await _context.LoanProducts.ToListAsync();
+            var products = await _context.LoanTypes.ToListAsync();
             ViewBag.Products = products;
 
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -40,7 +40,7 @@ namespace OnlineBankLoanPortal.Controllers
             var model = new LoanApplicationVM
             {
                 UserId = userId,
-                ApplicantName = user.FullName,
+                CustomerName = user.FullName,
                 ApplicantEmail = user.Email
             };
             return View(model);
@@ -56,12 +56,12 @@ namespace OnlineBankLoanPortal.Controllers
             {
                 model.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)); // Get the logged-in user's ID
 
-                model.Status = "Pending";
+                model.Status = LoanApplicationStatus.Pending;
                 var application = new LoanApplication
                 {
-                    UserId = model.UserId,
-                    ProductId = model.ProductId,
-                    Status = model.Status,
+                    CustomerId = model.UserId,
+                    ProductId = model.LoanTypeId,
+                    Status = (int)model.Status,
                     DateApplied = model.DateApplied,
                     AmountRequested = model.AmountRequested
                 };
@@ -106,14 +106,14 @@ namespace OnlineBankLoanPortal.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var application = await _context.LoanApplications
-                    .Where(a => a.ApplicationId == id)
+                    .Where(a => a.LoanApplicationId == id)
                     .Include(a => a.Repayments)
                     .FirstOrDefaultAsync();
 
             if (application == null)
                 return NotFound();
 
-            if (application.Status != "Pending" || application.Repayments.Any())
+            if (application.Status != (int)LoanApplicationStatus.Pending || application.Repayments.Any())
             {
                 //ModelState.AddModelError("", "Cannot delete this application because it has associated repayments.");
                 TempData["ErrorMessage"] = "Cannot delete application. Repayments have been initiated.";
@@ -129,16 +129,16 @@ namespace OnlineBankLoanPortal.Controllers
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var applications = await _context.LoanApplications
-                .Where(a => a.UserId == userId)
+                .Where(a => a.CustomerId == userId)
                 .Include(a => a.Product)
-                .Include(a => a.ApplicationUser)
+                .Include(a => a.Customer)
                 .Select(a => new LoanApplicationVM
                 {
-                    Id = a.ApplicationId,
-                    ProductName = a.Product.ProductName,
+                    Id = a.LoanApplicationId,
+                    LoanTypeName = a.LoanType.LoanTypeName,
                     AmountRequested = a.AmountRequested,
-                    ApplicantName = a.ApplicationUser.FullName,
-                    Status = a.Status
+                    CustomerName = a.Customer.FullName,
+                    Status = (LoanApplicationStatus)a.Status
                 })
                 .ToListAsync();
             return applications;

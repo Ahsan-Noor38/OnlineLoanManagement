@@ -25,9 +25,9 @@
 
                                     <div class="mb-4">
                                         <div data-mdb-input-init class="form-outline">
-                                            <label asp-for="ApplicantName" class="control-label"></label>
-                                            <input asp-for="ApplicantName" class="form-control form-control-lg" />
-                                            <span asp-validation-for="ApplicantName" class="text-danger"></span>
+                                            <label asp-for="CustomerName" class="control-label"></label>
+                                            <input asp-for="CustomerName" class="form-control form-control-lg" />
+                                            <span asp-validation-for="CustomerName" class="text-danger"></span>
                                         </div>
                                     </div>
 
@@ -58,9 +58,9 @@
                                     </div>
                                     <div class="mb-4">
                                         <div class="form-group">
-                                            <label asp-for="ProductId">Loan Type</label>
-                                            <select asp-for="ProductId" class="form-control" asp-items="@(new SelectList(ViewBag.Products, "ProductId", "ProductName"))"></select>
-                                            <span asp-validation-for="ProductId" class="text-danger"></span>
+                                            <label asp-for="LoanTypeId">Loan Type</label>
+                                            <select asp-for="LoanTypeId" class="form-control" asp-items="@(new SelectList(ViewBag.Products, "ProductId", "ProductName"))"></select>
+                                            <span asp-validation-for="LoanTypeId" class="text-danger"></span>
                                         </div>
                                     </div>
                                     @* <div class="mb-4">

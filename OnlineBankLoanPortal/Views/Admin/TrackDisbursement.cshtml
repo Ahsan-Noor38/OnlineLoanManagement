@@ -1,0 +1,34 @@
+﻿@model OnlineBankLoanPortal.Models.LoanApplication
+@{
+    ViewData["Title"] = "Track Disbursement";
+}
+<div class="container">
+
+    <h1>@ViewData["Title"]</h1>
+
+    <h3>Track Disbursement for Loan Application ID: @Model.LoanApplicationId</h3>
+
+    <form asp-action="TrackDisbursement">
+        <input type="hidden" asp-for="LoanApplicationId" />
+        <div class="form-group">
+            <label asp-for="ActualDisbursementDate" class="control-label"></label>
+            <input asp-for="ActualDisbursementDate" class="form-control" required />
+            <span asp-validation-for="ActualDisbursementDate" class="text-danger"></span>
+        </div><br />
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-sm btn-primary" />
+            <a asp-action="LoanApplications" class="btn btn-sm btn-secondary">Back to List</a>
+        </div>
+    </form>
+    @if (ViewData.ModelState.ErrorCount > 0)
+    {
+        <div class="alert alert-danger mt-3">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+</div>

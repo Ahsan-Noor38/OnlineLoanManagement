@@ -17,7 +17,7 @@ namespace OnlineBankLoanPortal
                     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
                     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-                    string[] roleNames = { "Customer", "Admin" };
+                    string[] roleNames = { "Customer", "Admin", "LoanOfficer" };
                     IdentityResult roleResult;
 
                     foreach (var roleName in roleNames)
@@ -36,6 +36,17 @@ namespace OnlineBankLoanPortal
                         var createAdminUser = await userManager.CreateAsync(adminUser, adminPassword);
                         if (createAdminUser.Succeeded)
                             await userManager.AddToRoleAsync(adminUser, "Admin");
+                    }
+
+                    var loanOfficerUser = new ApplicationUser { FullName = "Loan Officer", UserName = "officer@example.com", Email = "officer@example.com", EmailConfirmed = true, PhoneNumberConfirmed = true, PhoneNumber = "090078601" };
+                    string loanOfficerPassword = "Officer@123";
+                    var user2 = await userManager.FindByEmailAsync(loanOfficerUser.Email);
+
+                    if (user2 == null)
+                    {
+                        var createloanofficerUser = await userManager.CreateAsync(loanOfficerUser, loanOfficerPassword);
+                        if (createloanofficerUser.Succeeded)
+                            await userManager.AddToRoleAsync(loanOfficerUser, "LoanOfficer");
                     }
                 }
             }

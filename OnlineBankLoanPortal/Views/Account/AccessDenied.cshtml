@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="text-center">
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-danger">You do not have permission to access this resource.</p>
+    @if (Context.Request.Headers["Referer"].ToString() != null)
+    {
+        <a href="@Context.Request.Headers["Referer"].ToString()" class="btn btn-secondary">Back</a>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Login" class="btn btn-secondary">Back to Home</a>
+    }
+</div>

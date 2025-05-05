@@ -11,31 +11,26 @@ namespace OnlineBankLoanPortal.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ILogger<AccountController> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _logger = logger;
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl = null)
+        public async Task<IActionResult> Login(string? returnUrl = null)
         {
-            if (_signInManager.IsSignedIn(User))
-            {
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    return Redirect(returnUrl);
-
-                else
-                    return RedirectToAction("Index", "Home");
-            }
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string returnUrl, LoginVM model)
+        public async Task<IActionResult> Login(LoginVM model, string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -43,11 +38,35 @@ namespace OnlineBankLoanPortal.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
+                    //if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    //    return Redirect(returnUrl);
 
+                    //else
+                    //    return RedirectToAction("Index", "LoanApplication");
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    _logger.LogInformation("User logged in.");
+
+                    // Get the user's roles
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    // Redirect based on role
+                    if (roles.Contains("Admin"))
+                    {
+                        return RedirectToAction("LoanApplications", "Admin");
+                    }
+                    else if (roles.Contains("LoanOfficer"))
+                    {
+                        return RedirectToAction("LoanApplications", "LoanOfficer");
+                    }
+                    else if (roles.Contains("Customer"))
+                    {
+                        return RedirectToAction("LoanApplications", "Customer");
+                    }
                     else
-                        return RedirectToAction("Index", "Home");
+                    {
+                        // Default
+                        return LocalRedirect(returnUrl ?? "/");
+                    }
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
@@ -69,10 +88,9 @@ namespace OnlineBankLoanPortal.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // Optionally sign in the user
                     await _userManager.AddToRoleAsync(user, "Customer");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "LoanApplication");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -87,6 +105,12 @@ namespace OnlineBankLoanPortal.Controllers
             await _signInManager.SignOutAsync();
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied(string? returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
         }
     }
 }

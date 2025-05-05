@@ -1,0 +1,58 @@
+﻿@using OnlineBankLoanPortal.ViewModels
+@model IEnumerable<OnlineBankLoanPortal.ViewModels.LoanApplicationVM>
+@{
+    ViewData["Title"] = "My Loan Applications";
+}
+
+<div class="container">
+
+    <h1>@ViewData["Title"]</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoanTypeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmountRequested)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateApplied)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LoanTypeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmountRequested)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateApplied)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @if (@item.Status != (int)LoanApplicationStatus.Pending)
+                        {
+                            <a asp-action="UploadReceipt" asp-route-id="@item.Id" class="btn btn-sm btn-info">Upload Receipt</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-action="ApplyLoan" class="btn btn-sm btn-primary">Apply for a New Loan</a>
+
+</div>

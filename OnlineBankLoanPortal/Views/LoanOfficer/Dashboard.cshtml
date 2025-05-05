@@ -1,0 +1,72 @@
+﻿@model OnlineBankLoanPortal.ViewModels.AdminDashboardVM
+@{
+    ViewData["Title"] = "Loan Officer Dashboard";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Total Applications</h5>
+                <p class="card-text">@Model.TotalApplications</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Pending Applications</h5>
+                <p class="card-text">@Model.PendingApplications</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Approved Applications</h5>
+                <p class="card-text">@Model.ApprovedApplications</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Rejected Applications</h5>
+                <p class="card-text">@Model.RejectedApplications</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-secondary text-white mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Cancelled Applications</h5>
+                <p class="card-text">@Model.CancelledApplications</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Recent Loan Applications</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Loan Type</th>
+            <th>Customer Name</th>
+            <th>Application Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var application in Model.RecentApplications)
+        {
+            <tr>
+                <td>@application.LoanType?.LoanTypeName</td>
+                <td>@application.Customer.FullName</td>
+                <td>@application.DateApplied</td>
+                <td>@application.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

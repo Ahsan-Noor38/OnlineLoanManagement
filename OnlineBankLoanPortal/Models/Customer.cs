@@ -1,19 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineBankLoanPortal.Models;
 
-public partial class Customer
+public class Customer
 {
-    public int CId { get; set; }
+    [Key]
+    public int CustomerId { get; set; }
 
-    public string Name { get; set; } = null!;
+    [Required]
+    [ForeignKey("ApplicationUser")]
+    public Guid UserId { get; set; }
 
-    public string Email { get; set; } = null!;
+    public string FirstName { get; set; }
 
-    public string Password { get; set; } = null!;
+    public string LastName { get; set; }
 
-    public string Phone { get; set; } = null!;
+    public DateTime? DateOfBirth { get; set; }
 
-    public string Address { get; set; } = null!;
+    public string? Address { get; set; }
+
+    // Navigation property
+    public ApplicationUser? ApplicationUser { get; set; }
 }
