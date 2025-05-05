@@ -50,7 +50,7 @@ namespace OnlineBankLoanPortal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var loanApplicationExists = await _context.LoanApplications.AnyAsync(la => la.ApplicationId == model.LoanApplicationId);
+                var loanApplicationExists = await _context.LoanApplications.AnyAsync(la => la.LoanApplicationId == model.LoanApplicationId);
 
                 if (!loanApplicationExists)
                 {

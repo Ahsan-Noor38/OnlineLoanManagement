@@ -14,10 +14,10 @@ namespace OnlineBankLoanPortal.Controllers
         }
 
         // GET: LoanProduct
-        public async Task<IActionResult> Index()
-        {
-            var products = await _context.LoanProducts.ToListAsync();
-            return View(products);
-        }
+        //public async Task<IActionResult> Index()
+        //{
+        //    var products = await _context.LoanProducts.ToListAsync();
+        //    return View(products);
+        //}
     }
 }
